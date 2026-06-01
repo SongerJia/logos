@@ -1,5 +1,6 @@
 {
   "baseFontSizeAction": true,
   "cssTheme": "Maple",
-  "theme": "system"
+  "theme": "moonstone",
+  "accentColor": "#5cabf5"
 }

@@ -2,15 +2,8 @@
 # Obsidian
 # ==========
 
-# 工作区状态（打开哪些文件、面板布局、光标位置等）
-# 这是跨设备最容易产生无意义冲突的东西，强烈建议忽略
-.obsidian/workspace*
-.obsidian/workspace-live*.json
-
-# 临时缓存 / 备份
-.obsidian/cache/
-.obsidian/*.bak
-.obsidian/*.backup
+# 整个 .obsidian 目录（插件配置、工作区状态等，跨设备无意义）
+.obsidian/
 
 # Obsidian 废纸篓（看你习惯，不想版本化就开着）
 .trash/

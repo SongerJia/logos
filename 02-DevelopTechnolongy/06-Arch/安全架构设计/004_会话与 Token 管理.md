@@ -1,0 +1,5 @@
+|#|知识点|核心机制|关键设计|面试追问|FlowPulse 方案|
+|---|---|---|---|---|---|
+|**6.4.1**|**双 Token 机制**|Access Token(短期, 15min) 携带在每次请求Header中 → Refresh Token(长期, 7天) 存储在HttpOnly Cookie中用于刷新AT|AT过期→前端用RT请求 `/auth/refresh` → 验证RT有效→颁发新AT+新RT(RT滚动替换)|"Refresh Token被窃取了怎么检测？怎么实现Token撤销？"|AT: Redis黑名单(主动吊销) / RT: DB存储 + 版本号(强制使旧RT失效)|
+|**6.4.2**|**Token 黑名单与吊销**|用户修改密码/注销/管理员禁用时需立即吊销已有Token；方案：Redis Set(黑名单) / Token版本号/JWK Key Rotation|黑名单TTL=Token剩余有效期；内存可控(Token总量有限)|"JWT号称无状态，怎么做Token撤销？这不是矛盾了吗？"|Redis `SETEX blacklist:{jti} {remaining_ttl}` — Gateway每次验JWT时先查黑名单|
+|**6.4.3**|**跨域与Cookie安全**|CORS配置：AllowedOrigins白名单 / AllowedMethods / AllowCredentials(true); Cookie安全属性：HttpOnly(防JS读取) + Secure(仅HTTPS) + SameSite(Strict/Lax/None)|SameSite=Lax允许跨站GET携带Cookie(兼容性最好); None需配合Secure|"CORS和CSRF的关系？SameSite=Lax能完全防止CSRF吗？"|Nginx CORS精确配置; HttpOnly+Secure+SameSite=Strict for RT Cookie|

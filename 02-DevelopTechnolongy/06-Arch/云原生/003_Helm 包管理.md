@@ -1,0 +1,6 @@
+|#|知识点|重要度|三层笔记建议|面试追问|FlowPulse 结合|
+|---|---|---|---|---|---|
+|A1-23|**Helm 核心概念**|★★☆|L1: Chart(YAML模板包) → Release(一个部署实例) → Repository(Chart仓库)；L2. values.yaml覆盖默认配置(.Values引用) / templates/(模板文件) / charts/(依赖子Chart)；3. helm install/upgrade/rollback/history/release|Helm 2和Helm 3的区别(移除Tiller)? Chart版本管理策略？|**FlowPulse所有K8s资源用Helm Charts统一管理**|
+|A1-24|**Helm 模板语法与函数库**|★☆☆|L1. Go Template语法({{ .Values.replicaCount }}) / if-else / with / range 循环；2. 内置函数：default/toYaml/b64enc/required；3. 注释语法({- /* */ -}) 和 --set覆盖|怎么在模板中写条件判断？Chart最佳实践？|FlowPulse Helm Chart开发规范|
+|A1-25|**Helm Hooks 与 生命周期**|★☆☆|L1. Hooks: pre-install/post-install/pre-upgrade/post-upgrade/test/delete(annotations: helm.sh/hook)；2. 典型用途：迁移DB(pre-upgrade中运行Job) / 健康检查(test Hook)；3. hook-delete-policy控制Hook资源是否保留|Hooks的执行顺序？测试Hook怎么写？|FlowPulse DB升级前后的Hook管理|
+|A1-26|**Helm 仓库与CI集成**|★☆☆|L1. OCI Registry作为Chart仓库(Helm 3+) / Harbor集成了Chart存储；2. CI Pipeline中helm lint(语法检查) → helm template(渲染验证) → helm push(推送仓库)；3. ArgoCD GitOps自动同步Helm Release|CI中怎么自动化发布？ArgoCD怎么监听Helm Changes？|FlowPulse CI/CD流水线中的Helm步骤|

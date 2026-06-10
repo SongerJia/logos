@@ -1,0 +1,8 @@
+|#|知识点|重要度|三层笔记建议|面试追问|FlowPulse 结合|
+|---|---|---|---|---|---|
+|A1-27|**Service Mesh 概念演进**|★★☆|L1: SDK方式(每个服务嵌入SDK代码) → Sidecar模式(每个Pod注入代理容器，业务代码零侵入)；L2: 数据平面(Data Plane，Envoy等Sidecar处理流量) + 控制平面(Control Plane，Istio Pilot统一管理Sidecar)；L3: 解决什么问题？(服务间通信的可靠性/可观测性/安全性从业务逻辑中剥离)|Mesh和API Gateway的区别？Sidecar的资源开销？|FlowPulse未来架构演进方向|
+|A1-28|**Istio 架构**|★★☆|L1: istiod(统一控制平面：Pilot(流量管理) + Citadel(安全) + Galley(配置)) + Envoy Sidecar(数据面)；L2. VirtualService(路由规则) / DestinationRule(负载均衡/连接池/断路器) / Gateway(入口流量)；3. EnvoyFilter(扩展Envoy配置)|Istio 1.x之前的三组件架构？istiod做了什么整合？|FlowPulse灰度发布用VirtualService|
+|A1-29|**Envoy 侧边代理**|★☆☆|L1: 高性能C++ L7代理(基于事件驱动非阻塞IO)；L2: Listener(监听端口) → Cluster(上游服务) → Route(路由规则) → Filter Chain(过滤器链)；3. xDS API(LDS/CDS/RDS/EDS/ADS)动态下发配置|Envoy和Nginx的区别？xDS协议的作用？|了解即可|
+|A1-30|**流量管理(VirtualService/DestinationRule)**|★★☆|L1: VirtualService定义路由匹配(HTTPMatchRequest) + 路由目标(Destination weight权重分发)；L2. DestinationRule定义子集(Subset：v1/v2版本定义) + 流量策略(loadBalancer/circuitBreaker/connectionPool)；3. 灰度发布场景：90%流量→v1 + 10%→v2|怎么做A/B测试(按Header路由)？金丝雀发布怎么做？|**FlowPulse灰度发布：VirtualService按Header分流到新版本**|
+|A1-31|**安全性(mTLS/AuthorizationPolicy)**|★☆☆|L1. 双向TLS认证(Workload Identity证书自动轮换) / AuthorizationPolicy(命名空间/服务级别访问控制)；L2. PeerAuthentication(认证策略) + RequestAuthentication(JWT验证)；3. 与K8s RBAC的关系(K8s管Pod级别，Mesh管请求级别)|mTLS性能损耗？证书怎么管理的？|FlowPulse未来安全增强|
+|A1-32|**Service Mesh 选型**|★☆☆|L1: Istio(功能最全但资源占用大) / Linkerd(Rust编写极轻量) / Consul Connect(Consul生态)；2. 选型维度：团队规模/技术栈/运维能力/资源预算；3. 渐进式采用路径：先Ingress Mesh → 再East-West Mesh|小团队适合用Mesh吗？Linkerd的优势？|FlowPulse中期规划：先完善可观测性再考虑Mesh|

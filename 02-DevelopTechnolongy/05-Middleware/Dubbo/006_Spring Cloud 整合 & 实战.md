@@ -1,0 +1,13 @@
+### 为什么这个模块重要
+
+**实际项目中，Dubbo 往往不是孤立使用的，而是和 Spring Cloud 全家桶配合**。理解整合方式，才能在实际工作中用好 Dubbo。
+
+### 知识点表
+
+| 序号  | 知识点                                 | 重要度   | 笔记三层建议                                                                                                                                                                                                                                                           | 跨模块关联                                                 |
+| --- | ----------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| 6.1 | **Dubbo Spring Cloud 整合方案**         | 🔴必背  | ① **方案**：Dubbo 负责 RPC 调用 + Nacos 负责注册中心 + Spring Cloud 负责其他（Gateway/Config/Sentinel） ② **依赖**：`dubbo-spring-boot-starter` + `spring-cloud-starter-dubbo` ③ **配置**：`dubbo.scan.base-packages` + `dubbo.registry.address` ④ 面试：怎么在 Spring Cloud 项目里用 Dubbo？需要哪些依赖？ | → Spring Cloud Alibaba（技术栈）/ Nacos（注册中心）              |
+| 6.2 | **@DubboService & @DubboReference** | 🔴必背  | ① **@DubboService**：标注服务提供者（替代 XML 的 `<dubbo:service>`） ② **@DubboReference**：标注服务消费者（替代 `@Reference`，Spring Cloud 风格） ③ **版本控制**：`version` 属性（灰度发布/接口升级） ④ 面试：Dubbo 的注解怎么用？@DubboReference 和 @Autowired 有什么区别？                                                  | → Spring @Component（注解原理）/ Spring Cloud OpenFeign（对标） |
+| 6.3 | **服务分组 & 版本控制**                     | 🟡应掌握 | ① **分组（group）**：同一个接口的不同实现（如 `impl1` / `impl2`） ② **版本（version）**：接口升级时的多版本并存（消费者可以指定调用哪个版本） ③ **灰度发布**：新版本先灰度一部分节点，验证通过后全量 ④ 面试：Dubbo 怎么做灰度发布？用分组还是版本？                                                                                                          | → Spring Cloud Gateway 灰度路由（对标）                       |
+| 6.4 | **Dubbo 管理控制台（Dubbo Admin）**        | 🟢了解  | ① **功能**：服务查询/动态配置/路由规则/访问控制/服务Mock ② **部署**：Dubbo Admin 是一个独立的 Spring Boot 应用 ③ **使用场景**：线上排查问题/动态调整路由规则/服务降级 ④ 面试：你们用 Dubbo Admin 吗？用来做什么？                                                                                                                     | → Sentinel Dashboard（对标）/ Nacos 控制台                   |
+| 6.5 | **常见问题 & 排障思路**                     | 🟡应掌握 | ① **启动报错**：注册中心连不上（检查 Nacos/ZK 是否启动）/ 端口被占用（调整 `dubbo.protocol.port`） ② **调用超时**：`timeout` 设置过短 / 提供者慢 SQL / 网络延迟 ③ **序列化失败**：实体类没实现 `Serializable` / Hessian 版本不一致 ④ **服务雪崩**：没有熔断降级 / 线程池打满 ⑤ 面试：用 Dubbo 时遇到过哪些问题？怎么排查和解决？                                     | → SkyWalking（链路追踪）/ Sentinel（熔断降级）                    |

@@ -1265,15 +1265,15 @@ executor.getLargestPoolSize();    // 历史最大线程数
 
 ## 15. JDK 版本演进对比
 
-| 特性 | JDK 8 | JDK 9+ | JDK 17+ |
-|------|-------|--------|---------|
-| 核心实现 | ThreadPoolExecutor | 同 JDK 8 | 同 JDK 8 |
-| 提交方式 | execute/submit | + CompletableFuture | 同 JDK 9 |
-| 虚拟线程 | 无 | 无 | JDK 21+: Executors.newVirtualThreadPerTaskExecutor() |
-| WorkStealingPool | ForkJoinPool | 同 JDK 8 | 同 JDK 8 |
-| 关闭方法 | shutdown/shutdownNow | + close()（实现 AutoCloseable） | 同 JDK 9 |
-| 优雅关闭 | 手写 | + executor.close() | 同 JDK 9 |
-| Future | FutureTask | + CompletableFuture | 同 JDK 9 |
+| 特性               | JDK 8                | JDK 9+                      | JDK 17+                                              |
+| ---------------- | -------------------- | --------------------------- | ---------------------------------------------------- |
+| 核心实现             | ThreadPoolExecutor   | 同 JDK 8                     | 同 JDK 8                                              |
+| 提交方式             | execute/submit       | + CompletableFuture         | 同 JDK 9                                              |
+| 虚拟线程             | 无                    | 无                           | JDK 21+: Executors.newVirtualThreadPerTaskExecutor() |
+| WorkStealingPool | ForkJoinPool         | 同 JDK 8                     | 同 JDK 8                                              |
+| 关闭方法             | shutdown/shutdownNow | + close()（实现 AutoCloseable） | 同 JDK 9                                              |
+| 优雅关闭             | 手写                   | + executor.close()          | 同 JDK 9                                              |
+| Future           | FutureTask           | + CompletableFuture         | 同 JDK 9                                              |
 
 ### JDK 9+ 的 close() 方法
 
@@ -1305,10 +1305,10 @@ public void close() {
 
 ### Q1: 线程池的 execute 和 submit 有什么区别？
 
-| | execute | submit |
-|---|---------|--------|
-| 参数 | Runnable | Runnable / Callable |
-| 返回值 | void | Future<?> / Future<T> |
+|     | execute  | submit                  |
+| --- | -------- | ----------------------- |
+| 参数  | Runnable | Runnable / Callable     |
+| 返回值 | void     | Future < ?> / Future<T> |
 | 异常处理 | 任务中的异常直接抛出 | 异常被 Future.get() 捕获，包装为 ExecutionException |
 | 失败感知 | 不容易感知 | 通过 Future.get() 感知 |
 
